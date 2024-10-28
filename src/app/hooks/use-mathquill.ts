@@ -51,6 +51,13 @@ export default function useMathQuill(opts: Opts) {
 
     function enter() {
       opts.onEnter?.()
+      if (mqRef.current?.latex().startsWith('solve\\left(')) {
+        let t=mqRef.current?.latex()
+        let equation= t.substring('solve\\left('.length, t.lastIndexOf("{,}"))
+        let variable=t.substring(t.lastIndexOf("{,}")+3, t.lastIndexOf("\\right)"))
+        console.log("SOLVING", equation, "for",variable)
+      }
+      
     }
 
     const field = MQ.MathField(node, { handlers: { edit, enter } })
